@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('descripcion');
         $table->string('precio');
         $table->enum ('categoria', ['Pokebolas', 'Pociones', 'Otros']);
+        $table->timestamps();
         });
     }
 

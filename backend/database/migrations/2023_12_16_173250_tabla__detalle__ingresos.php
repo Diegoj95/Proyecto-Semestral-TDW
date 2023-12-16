@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('detalle_ingresos', function (Blueprint $table) {
         $table->id();
-        $table->string('id_ingreso');
-        $table->string('id_producto');
+        $table->unsignedBigInteger('id_ingreso');
+        $table->unsignedBigInteger('id_producto');
         $table->string('cantidad');
+        $table->timestamps();
 
         $table->foreign('id_ingreso')->references('id')->on('ingresos');
         $table->foreign('id_producto')->references('id')->on('productos');

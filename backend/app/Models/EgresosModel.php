@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Egresos extends Model
+class EgresosModel extends Model
 {
     use HasFactory;
 
