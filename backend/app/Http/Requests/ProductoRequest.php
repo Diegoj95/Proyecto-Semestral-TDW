@@ -10,12 +10,10 @@ class ProductoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_producto' => 'required',
-            'descripcion_producto' => 'required',
-            'precio_producto' => 'required',
-            'cantidad_producto' => 'required',
-            'id_categoria' => 'required',
-            'id_proveedor' => 'required',
+            'nombre' => 'required|string',
+            'descripcion' => 'required|string',
+            'precio' => 'required|numric',
+            'categoria' => 'required|string',
         ];
     }
 
