@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bodegas', function (Blueprint $table) {
+        Schema::create('inventario_bodegas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_bodega');
-            $table->string('direccion_bodega');
+            $table->string('id_bodega');
+            $table->string('id_producto');
+            $table->string('cantidad_producto');
+
+            $table->foreign('id_bodega')->references('id')->on('bodegas');
+            $table->foreign('id_producto')->references('id')->on('productos');
         });
     }
 
