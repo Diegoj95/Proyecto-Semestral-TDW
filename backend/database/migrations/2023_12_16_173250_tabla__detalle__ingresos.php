@@ -9,18 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('detalle_ingresos', function (Blueprint $table) {
         $table->id();
-        $table->string('nombre');
-        $table->string('descripcion');
-        $table->string('precio');
-        $table->string('cantidad_disponible');
-        $table->string('categoria');
+        $table->string('id_ingreso');
+        $table->string('id_producto');
+        $table->string('cantidad');
+
+        $table->foreign('id_ingreso')->references('id')->on('ingresos');
+        $table->foreign('id_producto')->references('id')->on('productos');
         });
     }
-
     /**
      * Reverse the migrations.
      */

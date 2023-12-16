@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('ingresos', function (Blueprint $table) {
         $table->id();
-        $table->string('nombre');
-        $table->string('descripcion');
-        $table->string('precio');
-        $table->string('cantidad_disponible');
-        $table->string('categoria');
+        $table->date('fecha_ingreso');
+        $table->string('id_proveedor');
+
+        $table->foreign('id_proveedor')->references('id')->on('proveedores');
         });
     }
-
     /**
      * Reverse the migrations.
      */
