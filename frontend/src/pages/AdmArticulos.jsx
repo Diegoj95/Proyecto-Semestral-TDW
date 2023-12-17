@@ -8,6 +8,8 @@ import Modal from '@mui/material/Modal';
 import ProductosForm from '../components/ProductosForm.jsx';
 import { registrarProducto, actualizarProducto, listarTodosLosProductos } from '../helpers/HelpersAPI';
 import Swal from 'sweetalert2';
+import fondo from '../assets/fondo.png';
+
 
 function AdmArticulos() {
   const [openRegister, setOpenRegister] = useState(false);
@@ -84,20 +86,40 @@ function AdmArticulos() {
   };
 
   const buttonStyle = {
-    backgroundColor: 'red',
+    backgroundColor: 'blue',
     color: 'white',
     '&:hover': {
-      backgroundColor: 'darkred',
+      backgroundColor: 'darkblue',
     },
     mr: 2, // Margen a la derecha para cada botón
   };
 
   return (
-    <Box sx={{ width: '100%', padding: 3, alignItems: 'flex-start', marginTop: '-50vh' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Box sx={{ 
+      width: '100vw',
+      minHeight: '100vh',
+      padding: 3, 
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      backgroundImage: `url(${fondo})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+    }}>
+    <Box sx={{ 
+      display: 'inline-block',
+      backgroundColor: '#b1dcd0',
+      textAlign: 'center',
+      p: 1,
+      borderRadius: '4px',
+    }}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
         Administración de Artículos
       </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mb: 3 }}>
+    </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mb: 3 }}>
         <Button sx={buttonStyle} onClick={handleOpenRegister}>
           Registrar Productos
         </Button>

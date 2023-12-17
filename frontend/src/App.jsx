@@ -13,7 +13,7 @@ function App() {
 
   return (
     <Box className="App" sx={{ maxWidth: 'lg', margin: 'auto', textAlign: 'center' }}>
-      <Typography variant="h3" component="h1" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
         Administración de Inventario de Tienda Pokémon
       </Typography>
       <Box display="flex" justifyContent="center" sx={{ maxWidth: 1020, margin: 'auto', gap: 2 }}>
