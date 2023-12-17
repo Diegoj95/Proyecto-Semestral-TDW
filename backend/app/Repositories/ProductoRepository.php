@@ -65,10 +65,10 @@ class ProductoRepository
 
     }
 
-    public function ActualizarProducto($reques)
+    public function ActualizarProducto($request)
     {
         try{
-            $producto = Producto::find($request->id);
+            $producto = ProductoModel::find($request->id);
             if(!$producto){
                 return response()->json(["message" => "No se encontró el producto"], Response::HTTP_BAD_REQUEST);
             }

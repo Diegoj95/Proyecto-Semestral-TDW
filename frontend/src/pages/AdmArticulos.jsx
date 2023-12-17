@@ -1,18 +1,37 @@
 // AdmArticulos.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ProductosForm from '../components/ProductosForm.jsx';
-import { registrarProducto } from '../helpers/HelpersAPI';
+import { registrarProducto, actualizarProducto, listarTodosLosProductos } from '../helpers/HelpersAPI';
 import Swal from 'sweetalert2';
-
 
 function AdmArticulos() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openModify, setOpenModify] = useState(false);
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    const obtenerProductos = async () => {
+      try {
+        const respuesta = await listarTodosLosProductos();
+        setProductos(respuesta.productos);
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo cargar la lista de productos.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    };
+
+    obtenerProductos();
+  }, []);
 
   const handleOpenRegister = () => setOpenRegister(true);
   const handleCloseRegister = () => setOpenRegister(false);
@@ -33,6 +52,34 @@ function AdmArticulos() {
       });
     } catch (error) {
       console.error('Error al registrar producto:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo registrar el producto. Por favor, inténtelo de nuevo.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  };
+
+  const handleActualizarProducto = async (datosProducto) => {
+    try {
+      const productoActualizado = await actualizarProducto(datosProducto);
+      console.log('Producto actualizado:', productoActualizado);
+      handleCloseModify(); // Cierra el modal después de actualizar
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Producto actualizado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+    } catch (error) {
+      console.error('Error al actualizar producto:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo actualizar el producto. Por favor, inténtelo de nuevo.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
     }
   };
 
@@ -51,9 +98,6 @@ function AdmArticulos() {
         Administración de Artículos
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mb: 3 }}>
-        <Button sx={buttonStyle} onClick={() => {/* Aquí va la lógica para "Listar Productos" */}}>
-          Listar Productos
-        </Button>
         <Button sx={buttonStyle} onClick={handleOpenRegister}>
           Registrar Productos
         </Button>
@@ -68,7 +112,7 @@ function AdmArticulos() {
       </Modal>
       <Modal open={openModify} onClose={handleCloseModify} aria-labelledby="modal-modify-title" aria-describedby="modal-modify-description">
         <Box sx={modalStyle}>
-          <ProductosForm action="modify" onSubmit={handleRegistrarProducto} initialValues={{}} />
+          <ProductosForm action="modify" onSubmit={handleActualizarProducto} productos={productos} />
         </Box>
       </Modal>
     </Box>

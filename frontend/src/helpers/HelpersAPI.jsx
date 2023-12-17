@@ -14,5 +14,27 @@ const registrarProducto = async (datosProducto) => {
     throw error;
   }
 };
+// Listar todos los productos
+const listarTodosLosProductos = async () => {
+  try {
+    const respuesta = await axios.get(`${apiBaseUrl}/listar_all_productos`);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al listar productos:', error.response);
+    throw error;
+  }
+};
 
-export { registrarProducto };
+// Actualizar producto
+const actualizarProducto = async (datosProducto) => {
+  try {
+    const respuesta = await axios.put(`${apiBaseUrl}/actualizar_producto`, datosProducto);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al actualizar producto:', error.response);
+    throw error;
+  }
+};
+
+export { registrarProducto, listarTodosLosProductos, actualizarProducto };
+
