@@ -1,4 +1,10 @@
+/* App.css */
+
 .App {
   text-align: center;
   padding: 20px;
+  background-image: url('./assets/fondo.png'); /* Asegúrate de que la ruta sea correcta */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Esto hace que .App tenga al menos la altura de la ventana del navegador */
 }
