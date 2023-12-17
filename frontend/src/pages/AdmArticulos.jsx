@@ -1,9 +1,14 @@
+// AdmArticulos.jsx
+
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ProductosForm from '../components/ProductosForm.jsx';
+import { registrarProducto } from '../helpers/HelpersAPI';
+import Swal from 'sweetalert2';
+
 
 function AdmArticulos() {
   const [openRegister, setOpenRegister] = useState(false);
@@ -15,6 +20,22 @@ function AdmArticulos() {
   const handleOpenModify = () => setOpenModify(true);
   const handleCloseModify = () => setOpenModify(false);
 
+  const handleRegistrarProducto = async (datosProducto) => {
+    try {
+      const productoRegistrado = await registrarProducto(datosProducto);
+      console.log('Producto registrado:', productoRegistrado);
+      handleCloseRegister(); // Cierra el modal después de registrar
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Producto registrado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+    } catch (error) {
+      console.error('Error al registrar producto:', error);
+    }
+  };
+
   const buttonStyle = {
     backgroundColor: 'red',
     color: 'white',
@@ -25,17 +46,10 @@ function AdmArticulos() {
   };
 
   return (
-    <Box sx={{
-        width: '100%',
-        padding: 3,
-        alignItems: 'flex-start',
-        marginTop: '-50vh',
-      }}>
+    <Box sx={{ width: '100%', padding: 3, alignItems: 'flex-start', marginTop: '-50vh' }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Administración de Artículos
       </Typography>
-
-      {/* Box para los botones alineados horizontalmente en la parte superior */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mb: 3 }}>
         <Button sx={buttonStyle} onClick={() => {/* Aquí va la lógica para "Listar Productos" */}}>
           Listar Productos
@@ -47,18 +61,14 @@ function AdmArticulos() {
           Modificar Productos
         </Button>
       </Box>
-
-      {/* Modal para Registrar Productos */}
       <Modal open={openRegister} onClose={handleCloseRegister} aria-labelledby="modal-register-title" aria-describedby="modal-register-description">
         <Box sx={modalStyle}>
-          <ProductosForm action="register" onSubmit={() => {}} />
+          <ProductosForm action="register" onSubmit={handleRegistrarProducto} />
         </Box>
       </Modal>
-
-      {/* Modal para Modificar Productos */}
       <Modal open={openModify} onClose={handleCloseModify} aria-labelledby="modal-modify-title" aria-describedby="modal-modify-description">
         <Box sx={modalStyle}>
-          <ProductosForm action="modify" onSubmit={() => {}} initialValues={{}} />
+          <ProductosForm action="modify" onSubmit={handleRegistrarProducto} initialValues={{}} />
         </Box>
       </Modal>
     </Box>
