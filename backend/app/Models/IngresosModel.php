@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ingresos extends Model
+class IngresosModel extends Model
 {
     use HasFactory;
 
@@ -13,14 +13,16 @@ class Ingresos extends Model
 
     protected $fillable = [
         'fecha_ingreso',
-        'id_proveedor',
+        'id_producto',
+        'cantidad_ingreso',
+
     ];
 
     public function detalle_ingresos(){
         return $this->hasMany(DetalleIngreso::class, 'id_ingreso');
     }
 
-    public function proveedor(){
-        return $this->belongsTo(Proveedor::class, 'id_proveedor');
+    public function producto(){
+        return $this->belongsTo(Producto::class, 'id_producto');
     }
 }

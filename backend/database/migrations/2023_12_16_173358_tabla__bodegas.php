@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_bodega');
             $table->string('direccion_bodega');
+            $table->timestamps();
         });
     }
 

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('inventario_bodegas', function (Blueprint $table) {
             $table->id();
-            $table->string('id_bodega');
-            $table->string('id_producto');
+            $table->unsignedBigInteger('id_bodega');
+            $table->unsignedBigInteger('id_producto');
             $table->string('cantidad_producto');
+            $table->timestamps();
 
             $table->foreign('id_bodega')->references('id')->on('bodegas');
             $table->foreign('id_producto')->references('id')->on('productos');

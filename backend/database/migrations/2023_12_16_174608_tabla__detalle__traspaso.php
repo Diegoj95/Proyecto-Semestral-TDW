@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('detalle_traspasos', function (Blueprint $table) {
 
         $table->id();
-        $table->string('id_traspaso');
-        $table->string('id_producto');
+        $table->unsignedBigInteger('id_traspaso');
+        $table->unsignedBigInteger('id_producto');
         $table->string('cantidad');
+        $table->timestamps();
 
         $table->foreign('id_traspaso')->references('id')->on('traspasos');
         $table->foreign('id_producto')->references('id')->on('productos');

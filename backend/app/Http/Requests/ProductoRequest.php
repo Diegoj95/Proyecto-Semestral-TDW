@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class ProductoRequest extends FormRequest
 {
@@ -10,9 +13,9 @@ class ProductoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required|string',
+            'nombre' => 'required|string|unique:productos,nombre',
             'descripcion' => 'required|string',
-            'precio' => 'required|numric',
+            'precio' => 'required|integer',
             'categoria' => 'required|string',
         ];
     }
@@ -34,6 +37,12 @@ class ProductoRequest extends FormRequest
             'max' => 'El campo :attribute supera el largo máximo permitido',
             'array' => 'El campo :attribute debe ser de tipo array'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST)
+        );
     }
 
 }
