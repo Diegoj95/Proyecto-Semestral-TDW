@@ -1,7 +1,10 @@
+// App.jsx
+
 import React from 'react';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ModuloCard from './components/ModuloCard'; 
+import ModuloCard from './components/ModuloCard';
+import PageLayout from './components/PageLayout';
+import Box from '@mui/material/Box';
 import './App.css';
 
 function App() {
@@ -12,10 +15,11 @@ function App() {
   ];
 
   return (
-    <Box className="App" sx={{ maxWidth: 'lg', margin: 'auto', textAlign: 'center' }}>
+    <PageLayout title={
       <Typography variant="h3" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
         Administración de Inventario de Tienda Pokémon
       </Typography>
+    }>
       <Box display="flex" justifyContent="center" sx={{ maxWidth: 1020, margin: 'auto', gap: 2 }}>
         {modulos.map(modulo => (
           <Box key={modulo.nombre} sx={{ flexBasis: '33%', maxWidth: '33%', display: 'flex', justifyContent: 'center' }}>
@@ -23,7 +27,7 @@ function App() {
           </Box>
         ))}
       </Box>
-    </Box>
+    </PageLayout>
   );
 }
 

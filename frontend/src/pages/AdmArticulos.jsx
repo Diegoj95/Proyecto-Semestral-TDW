@@ -8,7 +8,7 @@ import Modal from '@mui/material/Modal';
 import ProductosForm from '../components/ProductosForm.jsx';
 import { registrarProducto, actualizarProducto, listarTodosLosProductos } from '../helpers/HelpersAPI';
 import Swal from 'sweetalert2';
-import fondo from '../assets/fondo.png';
+import PageLayout from '../components/PageLayout';
 
 
 function AdmArticulos() {
@@ -95,30 +95,11 @@ function AdmArticulos() {
   };
 
   return (
-    <Box sx={{ 
-      width: '100vw',
-      minHeight: '100vh',
-      padding: 3, 
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      backgroundImage: `url(${fondo})`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-    }}>
-    <Box sx={{ 
-      display: 'inline-block',
-      backgroundColor: '#b1dcd0',
-      textAlign: 'center',
-      p: 1,
-      borderRadius: '4px',
-    }}>
+    <PageLayout title={
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
         Administración de Artículos
       </Typography>
-    </Box>
+    }>
       <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mb: 3 }}>
         <Button sx={buttonStyle} onClick={handleOpenRegister}>
           Registrar Productos
@@ -137,7 +118,7 @@ function AdmArticulos() {
           <ProductosForm action="modify" onSubmit={handleActualizarProducto} productos={productos} />
         </Box>
       </Modal>
-    </Box>
+    </PageLayout>
   );
 }
 

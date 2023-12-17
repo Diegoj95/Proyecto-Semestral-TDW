@@ -21,8 +21,8 @@ const getLinkPath = (moduleName) => {
 };
 
 const ModuloCard = ({ modulo }) => (
-  <Card sx={{ maxWidth: 345, width: '100%', m: 1 }}>
-    <Link to={getLinkPath(modulo.nombre)} style={{ textDecoration: 'none' }}>
+  <Link to={getLinkPath(modulo.nombre)} style={{ textDecoration: 'none' }}>
+    <Card sx={{ maxWidth: 345, width: '100%', m: 1, backgroundColor: 'grey.200'}}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -31,8 +31,8 @@ const ModuloCard = ({ modulo }) => (
           alt={modulo.nombre}
           sx={{ objectFit: 'contain' }}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent sx={{ textAlign: 'center' }}> {/* Centrar el texto */}
+          <Typography gutterBottom variant="h5" component="div" sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
             {modulo.nombre}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -40,8 +40,9 @@ const ModuloCard = ({ modulo }) => (
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Link>
-  </Card>
+    </Card>
+  </Link>
 );
+
 
 export default ModuloCard;
