@@ -19,6 +19,7 @@ class ProductoRepository
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
             $producto->precio = $request->precio;
+            $producto->url_foto = $request->url_foto;
             $producto->categoria = $request->categoria;
             $producto->save();
             return response()->json(["producto" => $producto], Response::HTTP_OK);
@@ -81,6 +82,9 @@ class ProductoRepository
             }
             if($request->has('precio')){
                 $producto->precio = $request->precio;
+            }
+            if($request->has('url_foto')){
+                $producto->precio = $request->url_foto;
             }
             if($request->has('categoria')){
                 $producto->categoria = $request->categoria;
