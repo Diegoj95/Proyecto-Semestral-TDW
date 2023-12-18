@@ -13,12 +13,12 @@ class ProductoRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'exists:productos,id|integer',
             'nombre' => 'required|string|unique:productos,nombre',
             'descripcion' => 'required|string',
             'precio' => 'required|integer',
-            'categoria' => 'required|string',
             'url_foto' => 'required|string',
+            'categoria' => 'required|string',
+            
         ];
     }
 

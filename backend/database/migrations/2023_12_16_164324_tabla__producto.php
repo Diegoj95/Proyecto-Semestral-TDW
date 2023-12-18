@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id();
         $table->string('nombre');
         $table->string('descripcion');
-        $table->string('precio');
+        $table->integer('precio');
         $table->string('url_foto');
         $table->enum ('categoria', ['Pokebolas', 'Pociones', 'Otros']);
         $table->timestamps();

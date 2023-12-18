@@ -87,7 +87,7 @@ class ProductoRepository
                 $producto->precio = $request->precio;
             }
             if($request->has('url_foto')){
-                $producto->precio = $request->url_foto;
+                $producto->url_foto = $request->url_foto;
             }
             if($request->has('categoria')){
                 $producto->categoria = $request->categoria;
