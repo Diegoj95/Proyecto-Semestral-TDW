@@ -9,6 +9,7 @@ import ProductosForm from '../components/ProductosForm.jsx';
 import { registrarProducto, actualizarProducto, listarTodosLosProductos } from '../helpers/HelpersAPI';
 import Swal from 'sweetalert2';
 import PageLayout from '../components/PageLayout';
+import ProductoCard from '../components/ProductoCard';
 
 
 function AdmArticulos() {
@@ -43,6 +44,7 @@ function AdmArticulos() {
 
   const handleRegistrarProducto = async (datosProducto) => {
     try {
+      console.log("Datos del producto a registrar:", datosProducto);
       const productoRegistrado = await registrarProducto(datosProducto);
       console.log('Producto registrado:', productoRegistrado);
       handleCloseRegister(); // Cierra el modal después de registrar
@@ -94,6 +96,13 @@ function AdmArticulos() {
     mr: 2, // Margen a la derecha para cada botón
   };
 
+  // Renderiza tarjetas de productos
+  const renderProductos = () => {
+    return productos.map((producto) => (
+      <ProductoCard key={producto.id} producto={producto} />
+    ));
+  };
+
   return (
     <PageLayout title={
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
@@ -118,6 +127,11 @@ function AdmArticulos() {
           <ProductosForm action="modify" onSubmit={handleActualizarProducto} productos={productos} />
         </Box>
       </Modal>
+
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {renderProductos()}
+      </Box>
+
     </PageLayout>
   );
 }
