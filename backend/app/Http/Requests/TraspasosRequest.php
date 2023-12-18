@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class TraspasosRequest extends FormRequest
 {
@@ -10,11 +13,10 @@ class TraspasosRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'integer|exists:traspasos,id|nullable',
             'fecha_traspaso' => 'required|date',
             'id_bodega_origen' => 'required|different:id_bodega_destino|exists:bodegas,id',
             'id_bodega_destino' => 'required|different:id_bodega_origen|exists:bodegas,id',
-            'id_producto' => 'required',
-            'cantidad_producto' => 'required',
         ];
     }
 
@@ -35,5 +37,11 @@ class TraspasosRequest extends FormRequest
             'max' => 'El campo :attribute supera el largo máximo permitido',
             'array' => 'El campo :attribute debe ser de tipo array'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors()->all(), Response::HTTP_BAD_REQUEST)
+        );
     }
 }

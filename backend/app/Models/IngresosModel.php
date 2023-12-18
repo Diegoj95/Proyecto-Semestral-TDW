@@ -13,16 +13,11 @@ class IngresosModel extends Model
 
     protected $fillable = [
         'fecha_ingreso',
-        'id_producto',
-        'cantidad_ingreso',
+        'id_bodega',
 
     ];
 
-    public function detalle_ingresos(){
-        return $this->hasMany(DetalleIngreso::class, 'id_ingreso');
-    }
-
-    public function producto(){
-        return $this->belongsTo(Producto::class, 'id_producto');
+    public function bodega(){
+        return $this->belongsTo(Bodega::class, 'id_bodega');
     }
 }

@@ -14,6 +14,7 @@ class BodegasModel extends Model
     protected $fillable = [
         'nombre_bodega',
         'direccion_bodega',
+        'url_imagen_bodega'
     ];
 
     public function traspasosOrigen(){
