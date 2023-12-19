@@ -36,5 +36,27 @@ const actualizarProducto = async (datosProducto) => {
   }
 };
 
-export { registrarProducto, listarTodosLosProductos, actualizarProducto };
+//registrarIngreso
+const registrarIngreso = async (datosIngreso) => {
+  try {
+    const respuesta = await axios.post(`${apiBaseUrl}/registrar_ingreso`, datosIngreso);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al registrar ingreso:', error.response);
+    throw error;
+  }
+};
+
+// Listar todas las bodegas
+const listarTodasLasBodegas = async () => {
+  try {
+    const respuesta = await axios.get(`${apiBaseUrl}/listar_all_bodegas`);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al listar bodegas:', error.response);
+    throw error;
+  }
+};
+
+export { registrarProducto, listarTodosLosProductos, actualizarProducto, listarTodasLasBodegas, registrarIngreso  };
 
