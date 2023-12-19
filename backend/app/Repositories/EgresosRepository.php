@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\EgresosModel;
 use App\Models\DetalleEgresosModel;
 use App\Models\InventarioBodegasModel;
+use App\Models\ProductoModel;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,12 @@ class EgresosRepository
                 $detalleEgreso = new DetalleEgresosModel();
                 $detalleEgreso->id_egreso = $egreso->id;
                 $detalleEgreso->id_producto = $producto['id'];
+
+                // Valida que el producto exista
+                $productoExistente = ProductoModel::find($producto['id']);
+                if (!$productoExistente) {
+                    throw new Exception("El producto con ID {$producto['id']} no existe.");
+                }
                 $detalleEgreso->cantidad = $producto['cantidad'];
                 $detalleEgreso->save();
     
