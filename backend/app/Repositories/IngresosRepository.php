@@ -93,9 +93,6 @@ class IngresosRepository
             if(!$ingreso){
                 return response()->json(["message" => "No se encontró el ingreso"], Response::HTTP_BAD_REQUEST);
             }
-            if($request->has('fecha_ingreso')){
-                $ingreso->fecha_ingreso = $request->fecha_ingreso;
-            }
             if($request->has('id_bodega')){
                 $ingreso->id_bodega = $request->id_bodega;
             }

@@ -15,7 +15,6 @@ return new class extends Migration
         $table->id();
         $table->unsignedBigInteger('id_bodega');
         $table->timestamps();
-
         $table->foreign('id_bodega')->references('id')->on('bodegas');
 
         });

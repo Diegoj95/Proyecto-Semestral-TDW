@@ -12,7 +12,6 @@ class EgresosModel extends Model
     protected $table='egresos';
 
     protected $fillable = [
-        'fecha_egreso',
         'id_bodega',
     ];
 

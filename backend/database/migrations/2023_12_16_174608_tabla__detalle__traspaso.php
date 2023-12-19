@@ -18,7 +18,6 @@ return new class extends Migration
         $table->unsignedBigInteger('id_producto');
         $table->string('cantidad');
         $table->timestamps();
-
         $table->foreign('id_traspaso')->references('id')->on('traspasos');
         $table->foreign('id_producto')->references('id')->on('productos');
         });

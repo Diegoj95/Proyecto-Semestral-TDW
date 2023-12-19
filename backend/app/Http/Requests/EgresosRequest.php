@@ -14,7 +14,6 @@ class EgresosRequest extends FormRequest
     {
         return [
             'id' => 'exists:egresos,id|integer',
-            'fecha_egreso' => 'required|date',
             'id_bodega' => 'required|integer|exists:bodegas,id',
         ];
     }
