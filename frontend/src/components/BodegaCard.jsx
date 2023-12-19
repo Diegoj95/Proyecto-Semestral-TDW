@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
 
 const BodegaCard = ({ bodega, onVerDetalle, detalle }) => {
   const [mostrarDetalle, setMostrarDetalle] = useState(false);
@@ -20,7 +21,7 @@ const BodegaCard = ({ bodega, onVerDetalle, detalle }) => {
     <Card sx={{ width: 300, m: 2 }}>
       <CardMedia
         component="img"
-        height="140"
+        height="50"
         image={bodega.url_imagen_bodega}
         alt={bodega.nombre_bodega}
         sx={{ objectFit: 'contain' }}
@@ -33,10 +34,19 @@ const BodegaCard = ({ bodega, onVerDetalle, detalle }) => {
           {mostrarDetalle ? 'Ocultar Detalle' : 'Ver Detalle'}
         </Button>
         <Collapse in={mostrarDetalle}>
-          {detalle && detalle.map((producto) => (
-            <Typography key={producto.id}>
-              {producto.nombre}: {producto.cantidad}
-            </Typography>
+          {detalle && Array.isArray(detalle) && detalle.map((item) => (
+            <Box key={item.id} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', my: 1 }}>
+              <Typography variant="body2">
+                {item.producto.nombre}: {item.cantidad_producto}
+              </Typography>
+              <CardMedia
+                component="img"
+                height="24" // Tamaño pequeño, ajustable según tus necesidades
+                image={item.producto.url_foto}
+                alt={item.producto.nombre}
+                sx={{ objectFit: 'contain' }}
+              />
+            </Box>
           ))}
         </Collapse>
       </CardContent>

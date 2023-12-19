@@ -58,5 +58,21 @@ const listarTodasLasBodegas = async () => {
   }
 };
 
-export { registrarProducto, listarTodosLosProductos, actualizarProducto, listarTodasLasBodegas, registrarIngreso  };
+const obtenerProductosDeBodega = async (idBodega) => {
+  try {
+    const respuesta = await axios.get(`${apiBaseUrl}/productos_bodega?id_bodega=${idBodega}`);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al obtener productos de la bodega:', error.response);
+    throw error;
+  }
+};
 
+export {
+  registrarProducto,
+  listarTodosLosProductos,
+  actualizarProducto,
+  listarTodasLasBodegas,
+  registrarIngreso,
+  obtenerProductosDeBodega
+};

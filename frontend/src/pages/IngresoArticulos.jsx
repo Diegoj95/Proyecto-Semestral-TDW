@@ -4,33 +4,42 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import PageLayout from '../components/PageLayout';
-import { registrarIngreso, listarTodasLasBodegas } from '../helpers/HelpersAPI';
+import {
+  registrarIngreso,
+  listarTodasLasBodegas,
+  obtenerProductosDeBodega
+} from '../helpers/HelpersAPI';
 import IngresoForm from '../components/IngresoForm';
 import BodegaCard from '../components/BodegaCard';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 
 function IngresoArticulos() {
   const [openIngreso, setOpenIngreso] = useState(false);
   const [bodegas, setBodegas] = useState([]);
   const [detalleBodega, setDetalleBodega] = useState({});
 
-  useEffect(() => {
-    const cargarBodegas = async () => {
-      try {
-        const respuesta = await listarTodasLasBodegas();
-        setBodegas(respuesta.bodegas);
-      } catch (error) {
-        console.error('Error al cargar bodegas:', error);
-      }
-    };
+  // Función para cargar las bodegas
+  const cargarBodegas = async () => {
+    try {
+      const respuesta = await listarTodasLasBodegas();
+      setBodegas(respuesta.bodegas);
+    } catch (error) {
+      console.error('Error al cargar bodegas:', error);
+    }
+  };
 
+  // useEffect para cargar las bodegas al montar el componente
+  useEffect(() => {
     cargarBodegas();
   }, []);
 
+  // Manejador para abrir el formulario de ingreso
   const handleOpenIngreso = () => setOpenIngreso(true);
+
+  // Manejador para cerrar el formulario de ingreso
   const handleCloseIngreso = () => setOpenIngreso(false);
 
+  // Manejador para el envío del formulario de ingreso
   const handleSubmitIngreso = async (datosIngreso) => {
     try {
       const ingresoRegistrado = await registrarIngreso(datosIngreso);
@@ -42,6 +51,7 @@ function IngresoArticulos() {
         icon: 'success',
         confirmButtonText: 'Aceptar'
       });
+      cargarBodegas(); // Recargar las bodegas después de un ingreso exitoso
     } catch (error) {
       console.error('Error al registrar ingreso:', error);
       Swal.fire({
@@ -53,11 +63,12 @@ function IngresoArticulos() {
     }
   };
 
+  // Función para cargar los detalles de una bodega
   const cargarDetalleBodega = async (idBodega) => {
     if (!detalleBodega[idBodega]) {
       try {
-        const respuesta = await axios.get(`http://localhost:8000/api/productos_bodega?id_bodega=${idBodega}`);
-        setDetalleBodega({ ...detalleBodega, [idBodega]: respuesta.data.productos });
+        const productos = await obtenerProductosDeBodega(idBodega);
+        setDetalleBodega({ ...detalleBodega, [idBodega]: productos.productos || [] });
       } catch (error) {
         console.error('Error al cargar detalles de la bodega:', error);
       }
