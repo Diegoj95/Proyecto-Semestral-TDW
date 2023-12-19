@@ -1,8 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\TraspasosModel;
-use App\Models\InventarioBodegas;
+use App\Models\DetalleTraspasosModel;
+use App\Models\InventarioBodegasModel;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -12,13 +14,42 @@ class TraspasosRepository
 {
     public function RegistrarTraspaso($request)
     {
+        DB::beginTransaction();
         try {
+            // Registrar el traspaso
             $traspaso = new TraspasosModel();
             $traspaso->id_bodega_origen = $request->id_bodega_origen;
             $traspaso->id_bodega_destino = $request->id_bodega_destino;
             $traspaso->save();
+    
+            foreach ($request->productos as $producto) {
+                // Registrar cada detalle del traspaso
+                $detalleTraspaso = new DetalleTraspasosModel();
+                $detalleTraspaso->id_traspaso = $traspaso->id;
+                $detalleTraspaso->id_producto = $producto['id'];
+                $detalleTraspaso->cantidad = $producto['cantidad'];
+                $detalleTraspaso->save();
+    
+                // Actualizar inventario en bodega origen
+                $inventarioOrigen = InventarioBodegasModel::where('id_bodega', $traspaso->id_bodega_origen)
+                                  ->where('id_producto', $producto['id'])
+                                  ->first();
+                $inventarioOrigen->cantidad_producto -= $producto['cantidad'];
+                $inventarioOrigen->save();
+    
+                // Actualizar o insertar en inventario de bodega destino
+                $inventarioDestino = InventarioBodegasModel::firstOrCreate(
+                    ['id_bodega' => $traspaso->id_bodega_destino, 'id_producto' => $producto['id']],
+                    ['cantidad_producto' => 0]
+                );
+                $inventarioDestino->cantidad_producto += $producto['cantidad'];
+                $inventarioDestino->save();
+            }
+    
+            DB::commit();
             return response()->json(["traspaso" => $traspaso], Response::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 "error" => $e->getMessage(),
                 "line" => $e->getLine(),
