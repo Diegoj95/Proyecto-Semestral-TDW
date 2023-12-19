@@ -47,7 +47,7 @@ function EgresoArticulos() {
       // Aquí manejas el error (puede ser una alerta o notificación)
       Swal.fire({
         title: 'Error',
-        text: 'No se realizar el egreso. Por favor, inténtelo de nuevo.',
+        text: 'No se realizo el egreso. Por favor, inténtelo de nuevo.',
         icon: 'error',
         confirmButtonText: 'Aceptar'
       });
