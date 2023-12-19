@@ -66,4 +66,10 @@ class ProductosController extends Controller
     {
         return $this->productoRepository->EliminarBodega($request);
     }
+
+    public function ProductosBodega(Request $request)
+    {
+        return $this->productoRepository->ProductosBodega($request);
+    }
+
 }

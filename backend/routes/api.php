@@ -13,6 +13,7 @@ Route::get('listar_all_productos', [ProductosController::class, 'ListarAllProduc
 Route::get('listar_un_producto', [ProductosController::class, 'ListarUnProducto']);
 Route::put('actualizar_producto', [ProductosController::class, 'ActualizarProducto']);
 Route::delete('eliminar_producto', [ProductosController::class, 'EliminarProducto']);
+Route::get('productos_bodega', [ProductosController::class, 'ProductosBodega']);
 
 //Api de ingresos
 Route::post('registrar_ingreso', [IngresosController::class, 'RegistrarIngreso']);

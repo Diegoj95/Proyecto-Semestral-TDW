@@ -21,8 +21,8 @@ class InventarioBodegasModel extends Model
         return $this->belongsTo(Bodegas::class, 'id_bodega');
     }
 
-    public function producto(){
-        return $this->belongsTo(Producto::class, 'id_producto');
+    public function producto() {
+        return $this->belongsTo(ProductoModel::class, 'id_producto');
     }
 
 }

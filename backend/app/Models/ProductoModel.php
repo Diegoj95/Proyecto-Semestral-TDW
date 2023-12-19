@@ -30,4 +30,8 @@ class ProductoModel extends Model
     public function detalle_traspasos(){
         return $this->hasMany(DetalleTraspaso::class, 'id_producto');
     }
+
+    public function inventarios() {
+        return $this->hasMany(InventarioBodega::class, 'id_producto');
+    }
 }

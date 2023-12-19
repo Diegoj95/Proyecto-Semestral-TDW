@@ -2,7 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\ProductoModel;
-use App\Models\InventarioBodegas;
+use App\Models\InventarioBodegasModel;
 use App\Models\BodegasModel;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -32,6 +32,26 @@ class ProductoRepository
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function ProductosBodega(Request $request)
+    {
+        try {
+            // Carga ansiosa de productos junto con su inventario en la bodega específica
+            $productos = InventarioBodegasModel::with('producto')
+                            ->where('id_bodega', $request->id_bodega)
+                            ->get();
+    
+            return response()->json(["productos" => $productos], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                "error" => $e->getMessage(),
+                "line" => $e->getLine(),
+                "file" => $e->getFile(),
+                "metodo" => __METHOD__
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    
 
     public function ListarAllProductos($request)
     {

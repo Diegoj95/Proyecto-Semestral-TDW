@@ -1,39 +1,31 @@
-// IngresoArticulos.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import PageLayout from '../components/PageLayout';
-import { registrarIngreso } from '../helpers/HelpersAPI';
+import { registrarIngreso, listarTodasLasBodegas } from '../helpers/HelpersAPI';
 import IngresoForm from '../components/IngresoForm';
+import BodegaCard from '../components/BodegaCard';
 import Swal from 'sweetalert2';
 
 function IngresoArticulos() {
   const [openIngreso, setOpenIngreso] = useState(false);
+  const [bodegas, setBodegas] = useState([]);
 
-  // Estilos para el botón
-  const buttonStyle = {
-    backgroundColor: 'blue',
-    color: 'white',
-    '&:hover': {
-      backgroundColor: 'darkblue',
-    }
-  };
+  useEffect(() => {
+    const cargarBodegas = async () => {
+      try {
+        const respuesta = await listarTodasLasBodegas();
+        setBodegas(respuesta.bodegas);
+      } catch (error) {
+        console.error('Error al cargar bodegas:', error);
+        // Manejar el error adecuadamente
+      }
+    };
 
-  // Estilos para el modal
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400, // Ancho fijo del modal
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    outline: 'none' // Elimina el borde en foco
-  };
+    cargarBodegas();
+  }, []);
 
   const handleOpenIngreso = () => setOpenIngreso(true);
   const handleCloseIngreso = () => setOpenIngreso(false);
@@ -67,14 +59,19 @@ function IngresoArticulos() {
       </Typography>
     }>
       <Box sx={{ '& > :not(style)': { m: 1 }, display: 'flex', justifyContent: 'center' }}>
-        <Button sx={buttonStyle} onClick={handleOpenIngreso}>
+        <Button color="primary" variant="contained" onClick={handleOpenIngreso}>
           Registrar Ingreso
         </Button>
-        {/* Aquí podrías tener otro botón o método para revisar los ingresos existentes */}
+      </Box>
+
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {bodegas.map(bodega => (
+          <BodegaCard key={bodega.id} bodega={bodega} />
+        ))}
       </Box>
 
       <Modal open={openIngreso} onClose={handleCloseIngreso}>
-        <Box sx={modalStyle}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, outline: 'none' }}>
           <IngresoForm onSubmit={handleSubmitIngreso} />
         </Box>
       </Modal>
