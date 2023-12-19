@@ -2,23 +2,49 @@
 namespace App\Repositories;
 
 use App\Models\IngresosModel;
-use App\Models\DetalleIngreso;
+use App\Models\DetalleIngresosModel;
+use App\Models\InventarioBodegasModel;
+use App\Models\BodegasModel;
+use App\Models\ProductoModel;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class IngresosRepository
 {
     public function RegistrarIngreso($request)
     {
+        DB::beginTransaction();
         try {
+            // Registrar el ingreso
             $ingreso = new IngresosModel();
-            $ingreso->fecha_ingreso = $request->fecha_ingreso;
             $ingreso->id_bodega = $request->id_bodega;
             $ingreso->save();
+    
+            foreach ($request->productos as $producto) {
+                // Registrar cada detalle del ingreso
+                $detalleIngreso = new DetalleIngresosModel();
+                $detalleIngreso->id_ingreso = $ingreso->id;
+                $detalleIngreso->id_producto = $producto['id'];
+                $detalleIngreso->cantidad = $producto['cantidad'];
+                $detalleIngreso->save();
+    
+                // Actualizar o insertar en inventario de bodegas
+                $inventario = InventarioBodegasModel::firstOrCreate(
+                    ['id_bodega' => $ingreso->id_bodega, 'id_producto' => $producto['id']],
+                    ['cantidad_producto' => 0]
+                );
+    
+                $inventario->cantidad_producto += $producto['cantidad'];
+                $inventario->save();
+            }
+    
+            DB::commit();
             return response()->json(["ingreso" => $ingreso], Response::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 "error" => $e->getMessage(),
                 "line" => $e->getLine(),

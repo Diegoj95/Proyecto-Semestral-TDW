@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('ingresos', function (Blueprint $table) {
         $table->id();
-        $table->date('fecha_ingreso');
         $table->unsignedBigInteger('id_bodega');
         $table->timestamps();
 

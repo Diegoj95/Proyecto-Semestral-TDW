@@ -1,5 +1,3 @@
-// AdmArticulos.jsx
-
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,30 +9,29 @@ import Swal from 'sweetalert2';
 import PageLayout from '../components/PageLayout';
 import ProductoCard from '../components/ProductoCard';
 
-
 function AdmArticulos() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    const obtenerProductos = async () => {
-      try {
-        const respuesta = await listarTodosLosProductos();
-        setProductos(respuesta.productos);
-      } catch (error) {
-        console.error('Error al obtener productos:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo cargar la lista de productos.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
-      }
-    };
-
-    obtenerProductos();
+    actualizarListaProductos();
   }, []);
+
+  const actualizarListaProductos = async () => {
+    try {
+      const respuesta = await listarTodosLosProductos();
+      setProductos(respuesta.productos);
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo actualizar la lista de productos.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  };
 
   const handleOpenRegister = () => setOpenRegister(true);
   const handleCloseRegister = () => setOpenRegister(false);
@@ -47,13 +44,14 @@ function AdmArticulos() {
       console.log("Datos del producto a registrar:", datosProducto);
       const productoRegistrado = await registrarProducto(datosProducto);
       console.log('Producto registrado:', productoRegistrado);
-      handleCloseRegister(); // Cierra el modal después de registrar
+      handleCloseRegister();
       Swal.fire({
         title: '¡Éxito!',
         text: 'Producto registrado correctamente.',
         icon: 'success',
         confirmButtonText: 'Aceptar'
       });
+      actualizarListaProductos();
     } catch (error) {
       console.error('Error al registrar producto:', error);
       Swal.fire({
@@ -69,13 +67,14 @@ function AdmArticulos() {
     try {
       const productoActualizado = await actualizarProducto(datosProducto);
       console.log('Producto actualizado:', productoActualizado);
-      handleCloseModify(); // Cierra el modal después de actualizar
+      handleCloseModify();
       Swal.fire({
         title: '¡Éxito!',
         text: 'Producto actualizado correctamente.',
         icon: 'success',
         confirmButtonText: 'Aceptar'
       });
+      actualizarListaProductos();
     } catch (error) {
       console.error('Error al actualizar producto:', error);
       Swal.fire({
@@ -93,10 +92,9 @@ function AdmArticulos() {
     '&:hover': {
       backgroundColor: 'darkblue',
     },
-    mr: 2, // Margen a la derecha para cada botón
+    mr: 2,
   };
 
-  // Renderiza tarjetas de productos
   const renderProductos = () => {
     return productos.map((producto) => (
       <ProductoCard key={producto.id} producto={producto} />
