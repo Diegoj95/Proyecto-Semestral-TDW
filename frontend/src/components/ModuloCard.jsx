@@ -27,12 +27,12 @@ const ModuloCard = ({ modulo }) => (
       <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}> {/* Ajustar la altura del contenido */}
         <CardMedia
           component="img"
-          height="150" // Altura fija para la imagen
+          height="150"
           image={modulo.imagen}
           alt={modulo.nombre}
-          sx={{ objectFit: 'contain' }} // Asegura que la imagen se ajuste dentro del espacio sin alterar las dimensiones de la tarjeta
+          sx={{ objectFit: 'contain' }}
         />
-        <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}> {/* Centrar el texto y permitir que crezca para llenar el espacio */}
+        <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div" sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
             {modulo.nombre}
           </Typography>

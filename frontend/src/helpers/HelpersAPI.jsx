@@ -68,11 +68,22 @@ const obtenerProductosDeBodega = async (idBodega) => {
   }
 };
 
+const registrarEgreso = async (datosEgreso) => {
+  try {
+    const respuesta = await axios.post(`${apiBaseUrl}/registrar_egreso`, datosEgreso);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al registrar egreso:', error.response);
+    throw error;
+  }
+};
+
 export {
   registrarProducto,
   listarTodosLosProductos,
   actualizarProducto,
   listarTodasLasBodegas,
   registrarIngreso,
-  obtenerProductosDeBodega
+  obtenerProductosDeBodega,
+  registrarEgreso
 };
