@@ -12,6 +12,7 @@ function App() {
     { nombre: 'Administrar Artículos', descripcion: 'Registrar y/o modificar productos', imagen: '/src/assets/cards/bolsa.png' },
     { nombre: 'Ingreso de Artículos', descripcion: 'Registrar ingresos de productos', imagen: '/src/assets/cards/cajas.png' },
     { nombre: 'Traspaso de Artículos', descripcion: 'Gestionar traspaso entre bodegas', imagen: '/src/assets/cards/camion.png' },
+    { nombre: 'Egreso de Artículos', descripcion: 'Registrar egreso de productos', imagen: '/src/assets/cards/egreso.png' },
   ];
 
   return (

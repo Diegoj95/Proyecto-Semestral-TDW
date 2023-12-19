@@ -6,6 +6,7 @@ import App from './App.jsx';
 import AdmArticulos from './pages/AdmArticulos';
 import IngresoArticulos from './pages/IngresoArticulos';
 import TraspasoArticulos from './pages/TraspasoArticulos';
+import EgresoArticulos from './pages/EgresoArticulos';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
         <Route path="/administrar-articulos" element={<AdmArticulos />} />
         <Route path="/ingreso-articulos" element={<IngresoArticulos />} />
         <Route path="/traspaso-articulos" element={<TraspasoArticulos />} />
+        <Route path="/egreso-articulos" element={<EgresoArticulos />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

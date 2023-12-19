@@ -1,4 +1,3 @@
-// ModuloCard.jsx
 import React from 'react';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -15,6 +14,8 @@ const getLinkPath = (moduleName) => {
       return '/ingreso-articulos';
     case 'Traspaso de Artículos':
       return '/traspaso-articulos';
+    case 'Egreso de Artículos':
+      return '/egreso-articulos';
     default:
       return '#';
   }
@@ -22,17 +23,17 @@ const getLinkPath = (moduleName) => {
 
 const ModuloCard = ({ modulo }) => (
   <Link to={getLinkPath(modulo.nombre)} style={{ textDecoration: 'none' }}>
-    <Card sx={{ maxWidth: 345, width: '100%', m: 1, backgroundColor: 'grey.200'}}>
-      <CardActionArea>
+    <Card sx={{ maxWidth: 345, width: '100%', m: 1, backgroundColor: 'grey.200', height: '100%' }}> {/* Establecer un alto fijo */}
+      <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}> {/* Ajustar la altura del contenido */}
         <CardMedia
           component="img"
-          height="150"
+          height="150" // Altura fija para la imagen
           image={modulo.imagen}
           alt={modulo.nombre}
-          sx={{ objectFit: 'contain' }}
+          sx={{ objectFit: 'contain' }} // Asegura que la imagen se ajuste dentro del espacio sin alterar las dimensiones de la tarjeta
         />
-        <CardContent sx={{ textAlign: 'center' }}> {/* Centrar el texto */}
-          <Typography gutterBottom variant="h5" component="div" sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
+        <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}> {/* Centrar el texto y permitir que crezca para llenar el espacio */}
+          <Typography gutterBottom variant="h5" component="div" sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
             {modulo.nombre}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -43,6 +44,5 @@ const ModuloCard = ({ modulo }) => (
     </Card>
   </Link>
 );
-
 
 export default ModuloCard;
