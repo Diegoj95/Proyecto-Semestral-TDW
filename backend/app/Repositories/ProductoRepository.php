@@ -36,7 +36,6 @@ class ProductoRepository
     public function ProductosBodega(Request $request)
     {
         try {
-            // Carga ansiosa de productos junto con su inventario en la bodega específica
             $productos = InventarioBodegasModel::with('producto')
                             ->where('id_bodega', $request->id_bodega)
                             ->get();

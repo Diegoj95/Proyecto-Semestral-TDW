@@ -41,7 +41,7 @@ const BodegaCard = ({ bodega, onVerDetalle, detalle }) => {
               </Typography>
               <CardMedia
                 component="img"
-                height="24" // Tamaño pequeño, ajustable según tus necesidades
+                height="24"
                 image={item.producto.url_foto}
                 alt={item.producto.nombre}
                 sx={{ objectFit: 'contain' }}

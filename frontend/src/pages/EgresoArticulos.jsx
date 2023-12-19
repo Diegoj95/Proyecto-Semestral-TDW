@@ -1,3 +1,4 @@
+// EgresoArticulos.jsx
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -13,6 +14,7 @@ function EgresoArticulos() {
   const [openEgreso, setOpenEgreso] = useState(false);
   const [bodegas, setBodegas] = useState([]);
   const [detalleBodega, setDetalleBodega] = useState({});
+  const [datosEgreso, setDatosEgreso] = useState({ bodega: '', productos: [{ producto: '', cantidad: '' }] });
 
   useEffect(() => {
     const cargarBodegas = async () => {
@@ -23,7 +25,6 @@ function EgresoArticulos() {
         console.error('Error al cargar bodegas:', error);
       }
     };
-
     cargarBodegas();
   }, []);
 
@@ -64,6 +65,10 @@ function EgresoArticulos() {
     }
   };
 
+  const handleEgresoChange = (e) => {
+    setDatosEgreso({ ...datosEgreso, [e.target.name]: e.target.value });
+  };
+
   return (
     <PageLayout title={
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
@@ -89,7 +94,7 @@ function EgresoArticulos() {
 
       <Modal open={openEgreso} onClose={handleCloseEgreso}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, outline: 'none' }}>
-          <EgresoForm onSubmit={handleSubmitEgreso} />
+          <EgresoForm onSubmit={handleSubmitEgreso} productosBodega={detalleBodega[datosEgreso.bodega]} onEgresoChange={handleEgresoChange} datosEgreso={datosEgreso} />
         </Box>
       </Modal>
     </PageLayout>
