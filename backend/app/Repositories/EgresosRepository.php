@@ -1,8 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\EgresosModel;
-use App\Models\DetalleEgresoModel;
+use App\Models\DetalleEgresosModel;
+use App\Models\InventarioBodegasModel;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -12,12 +14,38 @@ class EgresosRepository
 {
     public function RegistrarEgreso($request)
     {
+        DB::beginTransaction();
         try {
+            // Registrar el egreso
             $egreso = new EgresosModel();
             $egreso->id_bodega = $request->id_bodega;
             $egreso->save();
+    
+            foreach ($request->productos as $producto) {
+                // Registrar cada detalle del egreso
+                $detalleEgreso = new DetalleEgresosModel();
+                $detalleEgreso->id_egreso = $egreso->id;
+                $detalleEgreso->id_producto = $producto['id'];
+                $detalleEgreso->cantidad = $producto['cantidad'];
+                $detalleEgreso->save();
+    
+                // Actualizar inventario en bodega
+                $inventario = InventarioBodegasModel::where('id_bodega', $egreso->id_bodega)
+                                ->where('id_producto', $producto['id'])
+                                ->first();
+    
+                if ($inventario && $inventario->cantidad_producto >= $producto['cantidad']) {
+                    $inventario->cantidad_producto -= $producto['cantidad'];
+                    $inventario->save();
+                } else {
+                    throw new Exception("Stock insuficiente para el producto ID: " . $producto['id']);
+                }
+            }
+    
+            DB::commit();
             return response()->json(["egreso" => $egreso], Response::HTTP_OK);
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 "error" => $e->getMessage(),
                 "line" => $e->getLine(),
