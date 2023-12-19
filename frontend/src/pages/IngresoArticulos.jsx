@@ -8,10 +8,12 @@ import { registrarIngreso, listarTodasLasBodegas } from '../helpers/HelpersAPI';
 import IngresoForm from '../components/IngresoForm';
 import BodegaCard from '../components/BodegaCard';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 function IngresoArticulos() {
   const [openIngreso, setOpenIngreso] = useState(false);
   const [bodegas, setBodegas] = useState([]);
+  const [detalleBodega, setDetalleBodega] = useState({});
 
   useEffect(() => {
     const cargarBodegas = async () => {
@@ -20,7 +22,6 @@ function IngresoArticulos() {
         setBodegas(respuesta.bodegas);
       } catch (error) {
         console.error('Error al cargar bodegas:', error);
-        // Manejar el error adecuadamente
       }
     };
 
@@ -52,6 +53,17 @@ function IngresoArticulos() {
     }
   };
 
+  const cargarDetalleBodega = async (idBodega) => {
+    if (!detalleBodega[idBodega]) {
+      try {
+        const respuesta = await axios.get(`http://localhost:8000/api/productos_bodega?id_bodega=${idBodega}`);
+        setDetalleBodega({ ...detalleBodega, [idBodega]: respuesta.data.productos });
+      } catch (error) {
+        console.error('Error al cargar detalles de la bodega:', error);
+      }
+    }
+  };
+
   return (
     <PageLayout title={
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000080', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
@@ -66,7 +78,12 @@ function IngresoArticulos() {
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {bodegas.map(bodega => (
-          <BodegaCard key={bodega.id} bodega={bodega} />
+          <BodegaCard
+            key={bodega.id}
+            bodega={bodega}
+            onVerDetalle={cargarDetalleBodega}
+            detalle={detalleBodega[bodega.id]}
+          />
         ))}
       </Box>
 
