@@ -14,7 +14,6 @@ class TraspasosRepository
     {
         try {
             $traspaso = new TraspasosModel();
-            $traspaso->fecha_traspaso = $request->fecha_traspaso;
             $traspaso->id_bodega_origen = $request->id_bodega_origen;
             $traspaso->id_bodega_destino = $request->id_bodega_destino;
             $traspaso->save();
@@ -67,9 +66,6 @@ class TraspasosRepository
             $traspaso = TraspasosModel::find($request->id);
             if(!$traspaso){
                 return response()->json(["message" => "No se encontró el traspaso"], Response::HTTP_BAD_REQUEST);
-            }
-            if($request->has('fecha_traspaso')){
-                $traspaso->fecha_traspaso = $request->fecha_traspaso;
             }
             if($request->has('id_bodega_origen')){
                 $traspaso->id_bodega_origen = $request->id_bodega_origen;

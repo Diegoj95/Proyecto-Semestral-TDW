@@ -14,7 +14,6 @@ class TraspasosRequest extends FormRequest
     {
         return [
             'id' => 'integer|exists:traspasos,id|nullable',
-            'fecha_traspaso' => 'required|date',
             'id_bodega_origen' => 'required|different:id_bodega_destino|exists:bodegas,id',
             'id_bodega_destino' => 'required|different:id_bodega_origen|exists:bodegas,id',
         ];

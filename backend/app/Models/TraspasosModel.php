@@ -12,7 +12,6 @@ class TraspasosModel extends Model
     protected $table='traspasos';
 
     protected $fillable = [
-        'fecha_traspaso',
         'id_bodega_origen',
         'id_bodega_destino',
     ];

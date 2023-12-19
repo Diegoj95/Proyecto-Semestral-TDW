@@ -14,7 +14,6 @@ class EgresosRepository
     {
         try {
             $egreso = new EgresosModel();
-            $egreso->fecha_egreso = $request->fecha_egreso;
             $egreso->id_bodega = $request->id_bodega;
             $egreso->save();
             return response()->json(["egreso" => $egreso], Response::HTTP_OK);
@@ -67,9 +66,7 @@ class EgresosRepository
             if(!$egreso){
                 return response()->json(["message" => "No se encontró el egreso"], Response::HTTP_BAD_REQUEST);
             }
-            if($request->has('fecha_egreso')){
-                $egreso->fecha_egreso = $request->fecha_egreso;
-            }
+
             if($request->has('id_bodega')){
                 $egreso->id_bodega = $request->id_bodega;
             }
