@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import PageLayout from '../components/PageLayout';
 import EgresoForm from '../components/EgresoForm';
 import BodegaCard from '../components/BodegaCard';
+import Swal from 'sweetalert2';
 import { registrarEgreso, listarTodasLasBodegas, obtenerProductosDeBodega } from '../helpers/HelpersAPI';
 
 function EgresoArticulos() {
@@ -34,8 +35,21 @@ function EgresoArticulos() {
       await registrarEgreso(datosEgreso);
       handleCloseEgreso();
       // Aquí puedes agregar una alerta o notificación de éxito
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Se han egresado los productos correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+      cargarBodegas(); // Recargar las bodegas después de un egreso exitoso
     } catch (error) {
       // Aquí manejas el error (puede ser una alerta o notificación)
+      Swal.fire({
+        title: 'Error',
+        text: 'No se realizar el egreso. Por favor, inténtelo de nuevo.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
     }
   };
 

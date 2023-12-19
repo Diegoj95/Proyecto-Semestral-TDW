@@ -38,6 +38,8 @@ const EgresoForm = ({ onSubmit }) => {
         try {
           const respuestaProductos = await obtenerProductosDeBodega(datosEgreso.bodega);
           setProductosBodega(respuestaProductos.productos);
+          console.log("Productos:");
+          console.log(respuestaProductos.productos);
         } catch (error) {
           console.error('Error al cargar productos de la bodega:', error);
         }
@@ -101,6 +103,8 @@ const EgresoForm = ({ onSubmit }) => {
         </FormControl>
 
         {datosEgreso.productos.map((item, index) => (
+          console.log("item producto:"),
+          console.log(productosBodega),
           <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <FormControl fullWidth>
               <InputLabel>Producto</InputLabel>
@@ -111,9 +115,9 @@ const EgresoForm = ({ onSubmit }) => {
                 onChange={(e) => handleProductoChange(index, e)}
                 disabled={!datosEgreso.bodega}
               >
-                {productosBodega.map((producto) => (
-                  <MenuItem key={producto.id} value={producto.id}>
-                    {producto.nombre}
+                {productosBodega.map((productosBodega) => (
+                  <MenuItem key={productosBodega.id} value={productosBodega.producto.id}>
+                    {productosBodega.producto.nombre}
                   </MenuItem>
                 ))}
               </Select>
